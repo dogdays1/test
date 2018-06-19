@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        var apikey = "AIzaSyCYpIVDYnDUF_X8RT4v_0DYoWuIxjnPMMI";
+        var keyword = "surfing";
+
+        var outerQueryURL = "https://www.googleapis.com/youtube/v3/search?q=" + keyword + "&part=snippet&type=video&key=" + apikey;
+        $.ajax({
+            url: outerQueryURL,
+            method: "GET"
+        }).then(function (response) {
+            console.log(response);
+
+            // loop over response.items
+            for (var i = 0; i < response.items.length; i++) {
+                var videoId = response.items[i].id.videoId;
+                var innerQueryURL = "https://www.googleapis.com/youtube/v3/videos?id=" + videoId + "&part=snippet,contentDetails&key=" + apikey;
+                $.ajax({
+                    url: innerQueryURL,
+                    method: "GET"
+                }).then(function (response) {
+                    console.log(response);
+                })
+            }
+        });
+    </script>
+</body>
+
+</html>
